@@ -10,3 +10,4 @@ doc/api/
 
 #IntelliJ stuff
 .idea
+dbscan.iml

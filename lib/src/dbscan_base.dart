@@ -2,16 +2,6 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 class DBSCAN<T> {
-  final List<T> _dataset;
-  final num _epsilon;
-  final num _minPts;
-  final Function _distance;
-
-  List<List<int>> _clusters = [];
-  List<int> _noise = [];
-  List<int> _visited = [];
-  List<int> _assigned = [];
-
   //When you construct a DBSCAN object, you can specify the type of thing you want to cluster using DBSCAN<Type>(...)
   //DBSCAN takes 4 inputs: a List<T> dataset,
   //An epsilon which is a scalar representing the size of a cluster
@@ -43,6 +33,16 @@ class DBSCAN<T> {
     }
   }
 
+  final List<T> _dataset;
+  final num _epsilon;
+  final num _minPts;
+  final Function _distance;
+
+  List<List<int>> _clusters = [];
+  List<int> _noise = [];
+  List<int> _visited = [];
+  List<int> _assigned = [];
+
   //returns a List of List<T>, where each list represents a cluster of points
   List<List<T>> get clusters {
     List<List<T>> returnedClustersOfData = new List();
@@ -69,7 +69,7 @@ class DBSCAN<T> {
     return returnedNoise;
   }
 
-  _regionQuery(int pointId) {
+  List<int> _regionQuery(int pointId) {
     var neighbors = [];
 
     for (var id = 0; id < _dataset.length; id++) {
