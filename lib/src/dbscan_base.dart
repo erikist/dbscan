@@ -1,0 +1,114 @@
+// Copyright (c) 2017, erikrahtjen. All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
+class DBSCAN<T> {
+  final List<T> _dataset;
+  final num _epsilon;
+  final num _minPts;
+  final Function _distance;
+
+  List<List<int>> _clusters = [];
+  List<int> _noise = [];
+  List<int> _visited = [];
+  List<int> _assigned = [];
+
+  DBSCAN(this._dataset, this._epsilon, this._minPts, this._distance(T a, T b)) {
+    _visited = new List(_dataset.length);
+    _assigned = new List(_dataset.length);
+  }
+
+  List<List<T>> cluster() {
+    for (int pointId = 0; pointId < _dataset.length; pointId++) {
+      // if point is not visited, check if it forms a cluster
+      if (_visited[pointId] != 1) {
+        this._visited[pointId] = 1;
+
+        // if closest neighborhood is too small to form a cluster, mark as noise
+        var neighbors = _regionQuery(pointId);
+
+        if (neighbors.length < _minPts) {
+          print("Adding pointId to noise");
+          _noise.add(pointId);
+        } else {
+          // create new cluster and add point
+          var clusterId = _clusters.length;
+          print("Adding new cluster at $clusterId");
+          _clusters.add(new List());
+          _addToCluster(pointId, clusterId);
+
+          _expandCluster(clusterId, neighbors);
+        }
+      }
+    }
+
+    List<List<T>> returnedClustersOfData = new List();
+
+    for (var cluster in _clusters) {
+      List<T> dataCluster = [];
+      cluster.forEach((int datumId) {
+        dataCluster.add(_dataset[datumId]);
+      });
+      returnedClustersOfData.add(dataCluster);
+    }
+
+    return returnedClustersOfData;
+  }
+
+  _regionQuery(int pointId) {
+    var neighbors = [];
+
+    for (var id = 0; id < _dataset.length; id++) {
+      var dist = _distance(_dataset[pointId], _dataset[id]);
+      if (dist < _epsilon) {
+        print("Adding point to neighbors");
+        neighbors.add(id);
+      }
+    }
+
+    return neighbors;
+  }
+
+  void _addToCluster(int pointId, int clusterId) {
+    print("Adding $pointId to cluster $clusterId");
+    _clusters[clusterId].add(pointId);
+    _assigned[pointId] = 1;
+  }
+
+  void _expandCluster(int clusterId, neighbors) {
+    /**
+     * It's very important to calculate length of neighbors array each time,
+     * as the number of elements changes over time
+     */
+    for (var i = 0; i < neighbors.length; i++) {
+      var pointId2 = neighbors[i];
+
+      if (_visited[pointId2] != 1) {
+        _visited[pointId2] = 1;
+        var neighbors2 = this._regionQuery(pointId2);
+
+        if (neighbors2.length >= _minPts) {
+          neighbors = _mergeArrays(neighbors, neighbors2);
+        }
+      }
+
+      // add to cluster
+      if (_assigned[pointId2] != 1) {
+        _addToCluster(pointId2, clusterId);
+      }
+    }
+  }
+
+  _mergeArrays(a, b) {
+    var len = b.length;
+
+    for (var i = 0; i < len; i++) {
+      var P = b[i];
+      if (a.indexOf(P) < 0) {
+        print("Adding element to array from merge");
+        a.add(P);
+      }
+    }
+
+    return a;
+  }
+}
