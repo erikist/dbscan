@@ -13,7 +13,7 @@ class DBSCAN<T> {
 
     for (int pointId = 0; pointId < _dataset.length; pointId++) {
       // if point is not visited, check if it forms a cluster
-      if (_visited[pointId] != 1) {
+      if (!_hasPointBeenVisited(pointId)) {
         this._visited[pointId] = 1;
 
         // if closest neighborhood is too small to form a cluster, mark as noise
@@ -122,5 +122,9 @@ class DBSCAN<T> {
     }
 
     return a;
+  }
+
+  bool _hasPointBeenVisited(int pointId) {
+    return _visited[pointId] == 1;
   }
 }
