@@ -1,7 +1,7 @@
 # DBSCAN
-#### Density Baseed Spatial Clustering for Applications with Noise
+### Density Baseed Spatial Clustering for Applications with Noise
 
-A spatial clustering library for dart for use any time you need to organize sets of data into groups of .
+A spatial clustering library for dart for use any time you need to organize sets of data into groups of nearby clusters .
 
 ## Usage
 
@@ -38,8 +38,3 @@ A simple usage example:
       print('Noise: ${pointClusterer.noise}');
     }
 
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme

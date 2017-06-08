@@ -2,12 +2,13 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
 class DBSCAN<T> {
-  //When you construct a DBSCAN object, you can specify the type of thing you want to cluster using DBSCAN<Type>(...)
-  //DBSCAN takes 4 inputs: a List<T> dataset,
-  //An epsilon which is a scalar representing the size of a cluster
-  //A minPts which represents the minimum number of things to qualify as a cluster
-  //A distance function which takes two items of type T and returns a scalar distance between the two.
-  DBSCAN(this._dataset, this._epsilon, this._minPts, this._distance(T a, T b)) {
+  /// A DBSCAN object creates clusters of nearby data as defined by a distance function
+  ///
+  /// DBSCAN takes 4 inputs: a List<T> _dataset,
+  /// An _epsilon which is a scalar representing the size of a cluster
+  /// A _minPts int which represents the minimum number of things to qualify as a cluster
+  /// A _distance function which takes two items of type T and returns a scalar distance between the two.
+  DBSCAN(this._dataset, this._epsilon, this._minPts, num this._distance(T a, T b)) {
     _visited = new List(_dataset.length);
     _assigned = new List(_dataset.length);
 
@@ -43,7 +44,7 @@ class DBSCAN<T> {
   List<int> _visited = [];
   List<int> _assigned = [];
 
-  //returns a List of List<T>, where each list represents a cluster of points
+  /// Returns a [List]<T>, where each list represents a cluster of "nearby" data
   List<List<T>> get clusters {
     List<List<T>> returnedClustersOfData = new List();
 
@@ -58,7 +59,7 @@ class DBSCAN<T> {
     return returnedClustersOfData;
   }
 
-  //returns a List<T> of all the unclustered points, referred to as noise.
+  /// Returns a [List]<T> of all the unclustered points, referred to as noise.
   List<T> get noise {
     List<T> returnedNoise = new List();
 
