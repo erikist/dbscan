@@ -15,9 +15,7 @@ class DBSCAN<T> {
   DBSCAN(this._dataset, this._epsilon, this._minPts, this._distance(T a, T b)) {
     _visited = new List(_dataset.length);
     _assigned = new List(_dataset.length);
-  }
 
-  List<List<T>> cluster() {
     for (int pointId = 0; pointId < _dataset.length; pointId++) {
       // if point is not visited, check if it forms a cluster
       if (_visited[pointId] != 1) {
@@ -27,12 +25,10 @@ class DBSCAN<T> {
         var neighbors = _regionQuery(pointId);
 
         if (neighbors.length < _minPts) {
-          print("Adding pointId to noise");
           _noise.add(pointId);
         } else {
           // create new cluster and add point
           var clusterId = _clusters.length;
-          print("Adding new cluster at $clusterId");
           _clusters.add(new List());
           _addToCluster(pointId, clusterId);
 
@@ -40,7 +36,9 @@ class DBSCAN<T> {
         }
       }
     }
+  }
 
+  List<List<T>> get clusters {
     List<List<T>> returnedClustersOfData = new List();
 
     for (var cluster in _clusters) {
@@ -54,13 +52,22 @@ class DBSCAN<T> {
     return returnedClustersOfData;
   }
 
+  List<T> get noise {
+    List<T> returnedNoise = new List();
+
+    for (var datumId in _noise) {
+      returnedNoise.add(_dataset[datumId]);
+    }
+
+    return returnedNoise;
+  }
+
   _regionQuery(int pointId) {
     var neighbors = [];
 
     for (var id = 0; id < _dataset.length; id++) {
       var dist = _distance(_dataset[pointId], _dataset[id]);
       if (dist < _epsilon) {
-        print("Adding point to neighbors");
         neighbors.add(id);
       }
     }
@@ -69,7 +76,6 @@ class DBSCAN<T> {
   }
 
   void _addToCluster(int pointId, int clusterId) {
-    print("Adding $pointId to cluster $clusterId");
     _clusters[clusterId].add(pointId);
     _assigned[pointId] = 1;
   }
@@ -104,7 +110,6 @@ class DBSCAN<T> {
     for (var i = 0; i < len; i++) {
       var P = b[i];
       if (a.indexOf(P) < 0) {
-        print("Adding element to array from merge");
         a.add(P);
       }
     }
