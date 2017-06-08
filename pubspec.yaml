@@ -1,6 +1,6 @@
 name: dbscan
 description: A clustering package utilizing density based spatial clustering for applications with noise.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/erikist/dbscan
 author: erikrahtjen <erik.rahtjen@stablekernel.com>
 
