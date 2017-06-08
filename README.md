@@ -1,6 +1,7 @@
-# dbscan
+# DBSCAN
+#### Density Baseed Spatial Clustering for Applications with Noise
 
-A library for Dart developers. It is awesome.
+A spatial clustering library for dart for use any time you need to organize sets of data into groups of .
 
 ## Usage
 
