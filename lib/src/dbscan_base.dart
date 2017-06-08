@@ -111,7 +111,7 @@ class DBSCAN<T> {
     }
   }
 
-  _mergeArrays(a, b) {
+  List<int> _mergeArrays(List<int> a, List<int> b) {
     var len = b.length;
 
     for (var i = 0; i < len; i++) {
