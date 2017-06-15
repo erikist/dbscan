@@ -3,6 +3,13 @@
 
 A spatial clustering library for dart for use any time you need to organize sets of data into groups of nearby clusters .
 
+## Installation
+
+In your `pubspec.yaml` add the `dbscan` dependency and run `pub get`
+
+    dependencies:
+      dbscan: any
+
 ## Usage
 
 A simple usage example:
