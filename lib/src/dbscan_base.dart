@@ -71,7 +71,7 @@ class DBSCAN<T> {
   }
 
   List<int> _regionQuery(int pointId) {
-    var neighbors = [];
+    var neighbors = <int>[];
 
     for (var id = 0; id < _dataset.length; id++) {
       var dist = _distance(_dataset[pointId], _dataset[id]);
